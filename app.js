@@ -20,9 +20,9 @@ let gameSaves = [];
 
 function createNewGame() {
   let a = {
-    char: {}
+    char: {},
+    creationDate: Math.floor(Date.now() / 1000)
   }
-  let b = {}
-  let c = new PC(b);
+  a.char = new PC(b);
   gameSaves.push(new Game(a))
 }
