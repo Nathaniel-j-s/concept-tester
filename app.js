@@ -6,7 +6,12 @@ class Game {
 
 class Character {
   constructor(config) {
-    this.charName = config.charName;
+    this.charName = config.charName || 'Fergoddanaim';
+    this.str = config.str || 1;
+    this.agi = config.agi || 1;
+    this.con = config.con || 1;
+    this.int = config.int || 1;
+    this.wil = config.wil || 1;
   }
 }
 
@@ -20,9 +25,9 @@ let gameSaves = [];
 
 function createNewGame() {
   let a = {
-    char: {},
-    creationDate: Math.floor(Date.now() / 1000)
+    creationDate: 0
   }
   a.char = new PC(b);
+  a.creationDate = Math.floor(Date.now() / 1000)
   gameSaves.push(new Game(a))
 }
