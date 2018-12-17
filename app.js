@@ -29,13 +29,14 @@ function createForm(a) {
   final.setAttribute('id', a);
   return final;
 }
-
-function placeForm(a, b, c) {
+// Creates a form. Pass in string for ID.
+function placeForm(a, b) {
   let parent = document.getElementById(a);
-  parent.append(b);
-  return document.getElementById(c);
+  let child = createForm(b);
+  parent.append(child);
+  return document.getElementById(b);
 }
-
+// Pass in the parent's ID, followed by the desired child's ID. Appends, but also returns the child element.
 function createField(fieldName, fieldType, area) {
   let final = document.createElement('input');
   final.setAttribute('class', fieldName);
@@ -57,8 +58,7 @@ function createNewGame() {
   function createPlayerCharacter() {
     let final = {};
 
-    let z = 'creation-form';
-    let form = placeForm('creation-space', createForm(z), z);
+    let form = placeForm('creation-space', 'creation-form');
 
     // final.charName = prompt('What is your name?');
 
@@ -86,7 +86,7 @@ function createNewGame() {
       form.append(wilField);
     }
     selectGoodStat();
-    
+
     return final;
   }
   let b = createPlayerCharacter();
