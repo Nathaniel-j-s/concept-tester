@@ -37,20 +37,25 @@ function placeForm(a, b) {
   return document.getElementById(b);
 }
 // Pass in the parent's ID, followed by the desired child's ID. Appends, but also returns the child element.
-function createField(fieldName, fieldType, area) {
+function createInputField(fieldName, fieldType, area) {
   let final = document.createElement('input');
   final.setAttribute('class', fieldName);
-  final.setAttribute('name', area);
+  if (area) {
+    final.setAttribute('name', area);
+  }
   final.setAttribute('value', fieldName);
   final.setAttribute('type', fieldType);
   return final;
 }
-
-function createText(text) {
-  let final = document.createElement('p');
+// fieldName is the class and value, fieldType is obvious, area is optional and adds the name attribute.
+function createText(type, text) {
+  let final = document.createElement(type);
   let textSection = document.createTextNode(text);
   final.appendChild(textSection);
   return final;
+}
+function createButton() {
+  let final = document.createElement('button');
 }
 
 function createNewGame() {
@@ -60,32 +65,44 @@ function createNewGame() {
 
     let form = placeForm('creation-space', 'creation-form');
 
-    // final.charName = prompt('What is your name?');
-
-    function selectGoodStat() {
-      let lineBreak = document.createElement('br');
-      let strField = createField('str', 'radio', 'stat');
-      let strText = createText('Strength');
-      form.append(strText);
-      form.append(strField);
-      let agiField = createField('agi', 'radio', 'stat');
-      let agiText = createText('Agility');
-      form.append(agiText);
-      form.append(agiField);
-      let conField = createField('con', 'radio', 'stat');
-      let conText = createText('Constitution');
-      form.append(conText);
-      form.append(conField);
-      let intField = createField('int', 'radio', 'stat');
-      let intText = createText('Intelligence');
-      form.append(intText);
-      form.append(intField);
-      let wilField = createField('wil', 'radio', 'stat');
-      let wilText = createText('Will');
-      form.append(wilText);
-      form.append(wilField);
+    let decisionPoints = {
+      selectName: function() {
+        let nameText = createText('h2', 'Name');
+        let nameField = createInputField('charName', 'text');
+        form.append(nameText);
+        form.append(nameField);
+      },
+      selectGoodStat: function() {
+        let lineBreak = document.createElement('br');
+        let strField = createInputField('str', 'radio', 'stat');
+        let strText = createText('p', 'Strength');
+        form.append(strText);
+        form.append(strField);
+        let agiField = createInputField('agi', 'radio', 'stat');
+        let agiText = createText('p', 'Agility');
+        form.append(agiText);
+        form.append(agiField);
+        let conField = createInputField('con', 'radio', 'stat');
+        let conText = createText('p', 'Constitution');
+        form.append(conText);
+        form.append(conField);
+        let intField = createInputField('int', 'radio', 'stat');
+        let intText = createText('p', 'Intelligence');
+        form.append(intText);
+        form.append(intField);
+        let wilField = createInputField('wil', 'radio', 'stat');
+        let wilText = createText('p', 'Will');
+        form.append(wilText);
+        form.append(wilField);
+      }
     }
-    selectGoodStat();
+
+    function processDecisions() {
+
+    }
+
+    let startButton = createText('button', 'Get Started');
+    form.append(startButton);
 
     return final;
   }
