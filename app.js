@@ -103,6 +103,7 @@ function createNewGame() {
 
     let startButton = createText('button', 'Get Started');
     form.append(startButton);
+    // Figure out what this even is doing.
 
     return final;
   }
