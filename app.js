@@ -24,9 +24,23 @@ class PC extends Character {
 
 let gameSaves = [];
 
-function createForm(a) {
+function createFormWithOptions(formId, parentElement, options, submitText) {
+  let finalForm = createFormBase(formId);
+  let parent = document.getElementById(parentElement);
+  parent.append(finalForm);
+  for (let i = 0; i < options.length; i++) {
+    let optionName = createText('p', options.optionName);
+    finalForm.append(optionName);
+    let optionField = createInputField(options.optionName, options.optionType);
+    finalForm.append(optionField);
+  }
+  let submitButton = createInputField(submitText, 'submit');
+  finalForm.append(submitButton);
+  return finalForm;
+}
+function createFormBase(id) {
   let final = document.createElement('form');
-  final.setAttribute('id', a);
+  final.setAttribute('id', id);
   return final;
 }
 // Creates a form. Pass in string for ID.
@@ -50,6 +64,7 @@ function createInputField(fieldName, fieldType, area) {
 // fieldName is the class and value, fieldType is obvious, area is optional and adds the name attribute.
 function createText(type, text) {
   let final = document.createElement(type);
+  debugger;
   let textSection = document.createTextNode(text);
   final.appendChild(textSection);
   return final;
@@ -65,14 +80,19 @@ function createNewGame() {
 
     let decisionPoints = {
       selectName: function() {
-        let form = placeForm('creation-space', 'creation-form');
-        let nameText = createText('h2', 'Name');
-        let nameField = createInputField('charName', 'text');
-        let submitButton = createInputField('Finalize Name', 'submit');
-        submitButton.setAttribute('onclick', 'blah()')
-        form.append(nameText);
-        form.append(nameField);
-        form.append(submitButton);
+        let options = [{
+          optionName: 'charName',
+          optionType: 'text'
+        }];
+        createFormWithOptions('creation-form', 'creation-space', options, 'Give Name');
+        // let form = placeForm('creation-space', 'creation-form');
+        // let nameText = createText('h2', 'Name');
+        // let nameField = createInputField('charName', 'text');
+        // let submitButton = createInputField('Finalize Name', 'submit');
+        // submitButton.setAttribute('onclick', 'blah()')
+        // form.append(nameText);
+        // form.append(nameField);
+        // form.append(submitButton);
       },
       selectGoodStat: function() {
         let form = placeForm('creation-space', 'creation-form');
@@ -102,14 +122,14 @@ function createNewGame() {
 
     function processDecisions() {
       decisionPoints.selectName();
-      var promise1 = new Promise(function(resolve, reject) {
-        setTimeout(function() {
-          resolve(decisionPoints);
-        }, 1000);
-      });
-      promise1.then(function(obj) {
-        obj.selectGoodStat();
-      });
+      // var promise1 = new Promise(function(resolve, reject) {
+      //   setTimeout(function() {
+      //     resolve(decisionPoints);
+      //   }, 1000);
+      // });
+      // promise1.then(function(obj) {
+      //   obj.selectGoodStat();
+      // });
     }
 
     processDecisions();
