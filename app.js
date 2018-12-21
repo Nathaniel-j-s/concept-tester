@@ -8,11 +8,11 @@ class Game {
 class Character {
   constructor(config) {
     this.charName = config.charName || 'Fergoddanaim';
-    this.str = config.str || 5;
-    this.agi = config.agi || 5;
-    this.con = config.con || 5;
-    this.int = config.int || 5;
-    this.wil = config.wil || 5;
+    this.str = { val: config.str || 5, exp: 0 };
+    this.agi = { val: config.agi || 5, exp: 0 };
+    this.con = { val: config.con || 5, exp: 0 };
+    this.int = { val: config.int || 5, exp: 0 };
+    this.wil = { val: config.wil || 5, exp: 0 };
   }
 }
 
@@ -63,16 +63,19 @@ function createNewGame() {
   function createPlayerCharacter() {
     let final = {};
 
-    let form = placeForm('creation-space', 'creation-form');
-
     let decisionPoints = {
       selectName: function() {
+        let form = placeForm('creation-space', 'creation-form');
         let nameText = createText('h2', 'Name');
         let nameField = createInputField('charName', 'text');
+        let submitButton = createInputField('Finalize Name', 'submit');
+        submitButton.setAttribute('onclick', 'blah()')
         form.append(nameText);
         form.append(nameField);
+        form.append(submitButton);
       },
       selectGoodStat: function() {
+        let form = placeForm('creation-space', 'creation-form');
         let lineBreak = document.createElement('br');
         let strField = createInputField('str', 'radio', 'stat');
         let strText = createText('p', 'Strength');
@@ -98,12 +101,18 @@ function createNewGame() {
     }
 
     function processDecisions() {
-
+      decisionPoints.selectName();
+      var promise1 = new Promise(function(resolve, reject) {
+        setTimeout(function() {
+          resolve(decisionPoints);
+        }, 1000);
+      });
+      promise1.then(function(obj) {
+        obj.selectGoodStat();
+      });
     }
 
-    let startButton = createText('button', 'Get Started');
-    form.append(startButton);
-    // Figure out what this even is doing.
+    processDecisions();
 
     return final;
   }
