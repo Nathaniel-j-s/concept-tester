@@ -130,6 +130,7 @@ function createNewGame() {
     return final;
   }
   let b = createPlayerCharacter();
+  // Next, put all of the below inside a promise that fires after the character has been successfully created.
   a.char = new PC(b);
   a.creationDate = Math.floor(Date.now() / 1000);
   gameSaves.push(new Game(a));
