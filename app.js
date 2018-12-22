@@ -31,10 +31,11 @@ function createFormWithOptions(formId, parentElement, options, submitText) {
   for (let i = 0; i < options.length; i++) {
     let optionName = createText('p', options[i].optionName);
     finalForm.append(optionName);
-    let optionField = createInputField(options[i].optionName, options[i].optionType);
+    let optionField = createInputField(options[i].optionName, options[i].optionType, options[i].optionArea);
     finalForm.append(optionField);
   }
-  let submitButton = createInputField(submitText, 'submit');
+  let submitButton = createText('h3', 'Continue');
+  submitButton.setAttribute('id', 'char-creation-select-button');
   finalForm.append(submitButton);
   return finalForm;
 }
@@ -44,13 +45,6 @@ function createFormBase(id) {
   return final;
 }
 // Creates a form. Pass in string for ID.
-function placeForm(a, b) {
-  let parent = document.getElementById(a);
-  let child = createForm(b);
-  parent.append(child);
-  return document.getElementById(b);
-}
-// Pass in the parent's ID, followed by the desired child's ID. Appends, but also returns the child element.
 function createInputField(fieldName, fieldType, area) {
   let final = document.createElement('input');
   final.setAttribute('class', fieldName);
@@ -84,51 +78,51 @@ function createNewGame() {
           optionType: 'text'
         }];
         createFormWithOptions('creation-form', 'creation-space', options, 'Give Name');
-        // let form = placeForm('creation-space', 'creation-form');
-        // let nameText = createText('h2', 'Name');
-        // let nameField = createInputField('charName', 'text');
-        // let submitButton = createInputField('Finalize Name', 'submit');
-        // submitButton.setAttribute('onclick', 'blah()')
-        // form.append(nameText);
-        // form.append(nameField);
-        // form.append(submitButton);
       },
       selectGoodStat: function() {
-        let form = placeForm('creation-space', 'creation-form');
-        let lineBreak = document.createElement('br');
-        let strField = createInputField('str', 'radio', 'stat');
-        let strText = createText('p', 'Strength');
-        form.append(strText);
-        form.append(strField);
-        let agiField = createInputField('agi', 'radio', 'stat');
-        let agiText = createText('p', 'Agility');
-        form.append(agiText);
-        form.append(agiField);
-        let conField = createInputField('con', 'radio', 'stat');
-        let conText = createText('p', 'Constitution');
-        form.append(conText);
-        form.append(conField);
-        let intField = createInputField('int', 'radio', 'stat');
-        let intText = createText('p', 'Intelligence');
-        form.append(intText);
-        form.append(intField);
-        let wilField = createInputField('wil', 'radio', 'stat');
-        let wilText = createText('p', 'Will');
-        form.append(wilText);
-        form.append(wilField);
+        let options = [
+          {
+            optionName: 'Strength',
+            optionType: 'radio',
+            optionArea: 'stat'
+          },
+          {
+            optionName: 'Agility',
+            optionType: 'radio',
+            optionArea: 'stat'
+          },
+          {
+            optionName: 'Constitution',
+            optionType: 'radio',
+            optionArea: 'stat'
+          },
+          {
+            optionName: 'Intelligence',
+            optionType: 'radio',
+            optionArea: 'stat'
+          },
+          {
+            optionName: 'Willpower',
+            optionType: 'radio',
+            optionArea: 'stat'
+          }
+        ];
+        createFormWithOptions('creation-form', 'creation-space', options, 'Select Good Stat');
       }
     }
 
     function processDecisions() {
       decisionPoints.selectName();
-      // var promise1 = new Promise(function(resolve, reject) {
-      //   setTimeout(function() {
-      //     resolve(decisionPoints);
-      //   }, 1000);
-      // });
-      // promise1.then(function(obj) {
-      //   obj.selectGoodStat();
-      // });
+      var promise1 = new Promise(function(resolve, reject) {
+        document.getElementById('char-creation-select-button').addEventListener('click', function() {
+          setTimeout(function() {
+            resolve(decisionPoints);
+          }, 500);
+        });
+      });
+      promise1.then(function(obj) {
+        obj.selectGoodStat();
+      });
     }
 
     processDecisions();
