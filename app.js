@@ -29,9 +29,9 @@ function createFormWithOptions(formId, parentElement, options, submitText) {
   let parent = document.getElementById(parentElement);
   parent.append(finalForm);
   for (let i = 0; i < options.length; i++) {
-    let optionName = createText('p', options.optionName);
+    let optionName = createText('p', options[i].optionName);
     finalForm.append(optionName);
-    let optionField = createInputField(options.optionName, options.optionType);
+    let optionField = createInputField(options[i].optionName, options[i].optionType);
     finalForm.append(optionField);
   }
   let submitButton = createInputField(submitText, 'submit');
@@ -64,7 +64,6 @@ function createInputField(fieldName, fieldType, area) {
 // fieldName is the class and value, fieldType is obvious, area is optional and adds the name attribute.
 function createText(type, text) {
   let final = document.createElement(type);
-  debugger;
   let textSection = document.createTextNode(text);
   final.appendChild(textSection);
   return final;
@@ -81,7 +80,7 @@ function createNewGame() {
     let decisionPoints = {
       selectName: function() {
         let options = [{
-          optionName: 'charName',
+          optionName: 'Character Name',
           optionType: 'text'
         }];
         createFormWithOptions('creation-form', 'creation-space', options, 'Give Name');
