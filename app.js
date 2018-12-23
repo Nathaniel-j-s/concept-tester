@@ -24,7 +24,7 @@ class PC extends Character {
 
 let gameSaves = [];
 
-function createFormWithOptions(formId, parentElement, options, submitText) {
+function createFormWithOptions(formId, parentElement, options, submitText, endButton, endButtonId) {
   let finalForm = createFormBase(formId);
   let parent = document.getElementById(parentElement);
   parent.append(finalForm);
@@ -34,8 +34,8 @@ function createFormWithOptions(formId, parentElement, options, submitText) {
     let optionField = createInputField(options[i].optionName, options[i].optionType, options[i].optionArea);
     finalForm.append(optionField);
   }
-  let submitButton = createText('h3', 'Continue');
-  submitButton.setAttribute('id', 'char-creation-select-button');
+  let submitButton = createText('h4', endButton);
+  submitButton.setAttribute('id', endButtonId);
   finalForm.append(submitButton);
   return finalForm;
 }
@@ -77,7 +77,7 @@ function createNewGame() {
           optionName: 'Character Name',
           optionType: 'text'
         }];
-        createFormWithOptions('creation-form', 'creation-space', options, 'Give Name');
+        createFormWithOptions('creation-form', 'creation-space', options, 'Give Name', 'Continue', 'char-creation-select-button');
       },
       selectGoodStat: function() {
         let options = [
@@ -107,7 +107,7 @@ function createNewGame() {
             optionArea: 'stat'
           }
         ];
-        createFormWithOptions('creation-form', 'creation-space', options, 'Select Good Stat');
+        createFormWithOptions('creation-form', 'creation-space', options, 'Select Good Stat', 'End', 'final-char-creation-select-button');
       }
     }
 
@@ -126,13 +126,24 @@ function createNewGame() {
     }
 
     processDecisions();
+    let charCreationEndPromise = new Promise(function(resolve, reject) {
+      document.getElementById('final-char-creation-select-button').addEventListener('click', function() {
+        setTimeout(function() {
+          resolve(final);
+        }, 500);
+      });
+    });
 
-    return final;
+    charCreationEndPromise.then(function(a) {
+      console.log(a);
+    });
+    // return final;
   }
   let b = createPlayerCharacter();
+  console.log(b);
   // Next, put all of the below inside a promise that fires after the character has been successfully created.
-  a.char = new PC(b);
-  a.creationDate = Math.floor(Date.now() / 1000);
-  gameSaves.push(new Game(a));
-  console.log(gameSaves);
+  // a.char = new PC(b);
+  // a.creationDate = Math.floor(Date.now() / 1000);
+  // gameSaves.push(new Game(a));
+  // console.log(gameSaves);
 }
