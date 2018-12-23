@@ -133,7 +133,7 @@ function createNewGame() {
         }, 500);
       });
     });
-
+    // In all honesty, the smartest thing to do would probably be to have a function create the form/form sections, store all of that information, then pass it into the newgame function.
     charCreationEndPromise.then(function(a) {
       console.log(a);
     });
